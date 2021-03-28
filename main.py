@@ -28,7 +28,9 @@ def get_playlist_items():
     try:
         with open('last_video_timestamp', 'r+') as f:
             last_video_timestamp = float(f.read())
+            f.seek(0)
             f.write(str(now))
+            f.truncate()
 
     except FileNotFoundError:
         with open('last_video_timestamp', 'w') as f:
