@@ -11,6 +11,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 api_key = config['MAIN']['ApiKey']
 playlist_id = config['MAIN']['PlaylistId']
+embed_text = config['MAIN']['EmbedText']
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 
@@ -70,8 +71,14 @@ def get_playlist_items():
         else:
             break
 
-    for video in videos:
-        execute_webhook("New video in playlist!", video_info_to_embed(video))
+    for video in videos:          # Let the user decide what they want the embed message to say, if the config has "videoURL" then send the video URL.
+        if embed_text is None:    # The video URL will not embed as there is already an embed on the message.
+            execute_webhook("New video in playlist!", video_info_to_embed(video)) # If configuration field is blank then run the default.
+        if embed_text == "videoURL": # sends video URL.
+            snippet = video['snippet'] # This is needed as otherwise it uses the old snippet.
+            execute_webhook('https://youtu.be/' + snippet['resourceId']['videoId'], video_info_to_embed(video)) # Yes this bit is just taken from below.
+        else:
+            execute_webhook(embed_text, video_info_to_embed(video)) # If nothing else then use what the user put in.
 
     print("that's all folks!")
 

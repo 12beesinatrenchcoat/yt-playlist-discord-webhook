@@ -6,19 +6,30 @@ a python script that when run, takes all the newest videos in a youtube playlist
 
 > a note: i wrote this to introduce myself to python. the code is a mess, and whether or not it'll work is... iffy. use at your own risk.
 
-## usage
+## Usage
 
-create a `config.ini` file, and uhh:
+Look over the [YouTube Data API Overview](https://developers.google.com/youtube/v3/getting-started) in order to obtain your API key, alternatively the necessary steps have been copied below.
+1. Create a new project in the [Google Developers Console](https://console.developers.google.com/) and [obtain authorization credentials](https://developers.google.com/youtube/registering_an_application) so your application can submit API requests.
+2. After creating your project, make sure the YouTube Data API is one of the services that your application is registered to use: 
+    1. Go to the [API Console](https://console.developers.google.com/) and select the project that you just registered.
+    2. Visit the [Enabled APIs page](https://console.developers.google.com/apis/enabled).  In the list of APIs, make sure the status is **ON** for the **YouTube Data API v3**.
+3. Edit the [config.ini](/config.ini): 
 
 ```ini
 [MAIN]
 ApiKey = youtube api key...
-PlaylistId = the youtube playlist id...
+PlaylistId = the youtube playlist ID, not the full url, just the part after `playlist?list=`
 WebhookUrl = the webhook url.
+EmbedText = the message you want to be sent with the embed.  If nothing is specified, defaults to: `New video in playlist!` you can also say `videoURL` to send the video's URL.
 ```
 
-something like that. install all the dependencies, and run. set up a `cron` job or something, then cross your fingers.
+## Running
 
-## license
+1. Install all dependencies with `pip install -r requirements.txt`
+2. Using whatever your python prefix is, run `main.py`
+Windows: `py main.py`
+3. If you want to run this at certain times, it is recommended you configure a cron job, [this](https://crontab.guru/) will make your life easier.
+
+## License
 
 [the unlicense](https://unlicense.org/). do whatever you want with it.
