@@ -4,31 +4,21 @@ orbs:
   python: circleci/python@0.2.1
 
 jobs:
-  working_directory: ~/repo
-  docker:
-    - image: circleci/python:latest
-  steps:
-    - checkout
-    - python/load-cache
-    - python/install-deps
-    - python/save-cache
-    - run:
-        command: python3 ./main.py
-    - env:
-        ApiKey: ${{ secrets.ApiKey }}
-        PlaylistID: ${{ secrets.PlaylistID }}
-        WebhookUrl: ${{ secrets.WebhookUrl}}
-        EmbedText: VideoURL
+  build-and-test:
+    docker:
+      - image: circleci/python:latest
+    executor: python/default
+    steps:
+      - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
+      - run: 
+          name: "Run YTPDW"
+          command: echo $WebhookUrl && python3 ./main.py
+          
 
 workflows:
-  version: 2
-  latest:
-    triggers:
-      - schedule:
-        cron: "0 * * * *"
-        filters:
-          branches:
-            only:
-              - master
+  main:
     jobs:
-      - test
+      - build-and-test
