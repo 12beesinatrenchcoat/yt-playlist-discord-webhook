@@ -2,15 +2,9 @@
 from datetime import datetime
 from discord_webhook import DiscordWebhook, DiscordEmbed
 from googleapiclient.discovery import build
-import configparser
 import iso8601
 import socket
 import time
-
-# Get environment variables
-#api_key = os.getenv('ApiKey')
-#playlist_id = os.getenv('PlaylistID')
-#embed_text = os.getenv('EmbedText')
 
 from decouple import config
 api_key = config('ApiKey')
@@ -116,7 +110,6 @@ def video_info_to_embed(video):
 def execute_webhook(content, embed):
 
     webhook_url = config('WebhookUrl')
-    #webhook_url = os.getenv('WebhookUrl')
     webhook = DiscordWebhook(url=webhook_url, content=content)
 
     webhook.add_embed(embed)
