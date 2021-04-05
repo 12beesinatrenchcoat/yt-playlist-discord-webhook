@@ -8,9 +8,9 @@ jobs:
     docker:
       - image: circleci/python:latest
     environment:
-      ApiKey: $ApiKey
-      PlaylistID: $PlaylistID
-      WebhookUrl: $WebhookUrl
+      ApiKey: ${{ ApiKey }}
+      PlaylistID: ${{ PlaylistID }}
+      WebhookUrl: ${{ WebhookUrl }}
       EmbedText: VideoURL
     executor: python/default
     steps:
