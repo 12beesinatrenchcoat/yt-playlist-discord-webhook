@@ -5,6 +5,13 @@ orbs:
 
 jobs:
   build-and-test:
+    docker:
+      - image: circleci/python:latest
+    environment:
+      ApiKey: $ApiKey
+      PlaylistID: $PlaylistID
+      WebhookUrl: $WebhookUrl
+      EmbedText: VideoURL
     executor: python/default
     steps:
       - checkout
@@ -14,11 +21,6 @@ jobs:
       - run: 
           name: "Run YTPDW"
           command: echo $WebhookUrl && python3 ./main.py
-          environment:
-            ApiKey: $ApiKey
-            PlaylistID: $PlaylistID
-            WebhookUrl: $WebhookUrl
-            EmbedText: VideoURL
           
 
 workflows:
