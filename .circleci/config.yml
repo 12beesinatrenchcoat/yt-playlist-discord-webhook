@@ -7,11 +7,6 @@ jobs:
   build-and-test:
     docker:
       - image: circleci/python:latest
-    environment:
-      ApiKey: ${{ ApiKey }}
-      PlaylistID: ${{ PlaylistID }}
-      WebhookUrl: ${{ WebhookUrl }}
-      EmbedText: VideoURL
     executor: python/default
     steps:
       - checkout
