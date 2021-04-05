@@ -84,7 +84,7 @@ def get_playlist_items():
     for video in videos:          # Let the user decide what they want the embed message to say, if the config has "videoURL" then send the video URL.
         if embed_text is None:    # The video URL will not embed as there is already an embed on the message.
             execute_webhook("New video in playlist!", video_info_to_embed(video)) # If configuration field is blank then run the default.
-        if embed_text == "videoURL": # sends video URL.
+        if embed_text == "VideoURL": # sends video URL.
             snippet = video['snippet'] # This is needed as otherwise it uses the old snippet.
             execute_webhook('https://youtu.be/' + snippet['resourceId']['videoId'], video_info_to_embed(video)) # Yes this bit is just taken from below.
         else:
