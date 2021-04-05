@@ -5,7 +5,8 @@ name: YTPDW
 # Controls when the action will run. 
 on:
   schedule:
-    - cron: '0 * * * *' # hourly
+    # - cron: '0 * * * *' # hourly
+      - cron: '0 */2 * * *' # Every two hours
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
