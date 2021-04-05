@@ -15,9 +15,9 @@ jobs:
           name: "Run YTPDW"
           command: python3 ./main.py
           environment:
-            ApiKey: ${{ secrets.ApiKey }}
-            PlaylistID: ${{ secrets.PlaylistID }}
-            WebhookUrl: ${{ secrets.WebhookUrl}}
+            ApiKey: $ApiKey
+            PlaylistID: $PlaylistID
+            WebhookUrl: $WebhookUrl
             EmbedText: VideoURL
           
 
