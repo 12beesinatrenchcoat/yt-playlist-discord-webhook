@@ -4,23 +4,31 @@ orbs:
   python: circleci/python@0.2.1
 
 jobs:
-  build-and-test:
-    executor: python/default
-    steps:
-      - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
-      - run: 
-          command: python3 ./main.py
-          name: Playlist
-        env:
-            ApiKey: ${{ secrets.ApiKey }}
-            PlaylistID: ${{ secrets.PlaylistID }}
-            WebhookUrl: ${{ secrets.WebhookUrl}}
-            EmbedText: VideoURL
+  working_directory: ~/repo
+  docker:
+    - image: circleci/python:latest
+  steps:
+    - checkout
+    - python/load-cache
+    - python/install-deps
+    - python/save-cache
+    - run:
+        command: python3 ./main.py
+    - env:
+        ApiKey: ${{ secrets.ApiKey }}
+        PlaylistID: ${{ secrets.PlaylistID }}
+        WebhookUrl: ${{ secrets.WebhookUrl}}
+        EmbedText: VideoURL
 
 workflows:
-  main:
+  version: 2
+  latest:
+    triggers:
+      - schedule:
+        cron: "0 * * * *"
+        filters:
+          branches:
+            only:
+              - master
     jobs:
-      - build-and-test
+      - test
