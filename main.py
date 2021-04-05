@@ -7,11 +7,21 @@ import iso8601
 import socket
 import time
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-api_key = config['MAIN']['ApiKey']
-playlist_id = config['MAIN']['PlaylistId']
-embed_text = config['MAIN']['EmbedText']
+# Get environment variables
+#api_key = os.getenv('ApiKey')
+#playlist_id = os.getenv('PlaylistID')
+#embed_text = os.getenv('EmbedText')
+
+from decouple import config
+api_key = config('ApiKey')
+playlist_id = config('PlaylistID')
+embed_text = config('EmbedText')
+
+# config = configparser.ConfigParser()
+# config.read('config.ini')
+# api_key = config['MAIN']['ApiKey']
+# playlist_id = config['MAIN']['PlaylistId']
+# embed_text = config['MAIN']['EmbedText']
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 
@@ -111,7 +121,8 @@ def video_info_to_embed(video):
 
 def execute_webhook(content, embed):
 
-    webhook_url = config['MAIN']['WebhookUrl']
+    # webhook_url = config['MAIN']['WebhookUrl']
+    webhook_url = config('WebhookUrl')
     webhook = DiscordWebhook(url=webhook_url, content=content)
 
     webhook.add_embed(embed)
