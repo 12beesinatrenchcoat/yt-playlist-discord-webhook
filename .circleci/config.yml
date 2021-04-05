@@ -12,8 +12,14 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run: 
+          name: "Run YTPDW"
           command: python3 ./main.py
-          name: Playlist
+          environment:
+            ApiKey: ${{ secrets.ApiKey }}
+            PlaylistID: ${{ secrets.PlaylistID }}
+            WebhookUrl: ${{ secrets.WebhookUrl}}
+            EmbedText: VideoURL
+          
 
 workflows:
   main:
