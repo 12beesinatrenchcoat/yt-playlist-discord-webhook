@@ -13,7 +13,7 @@ jobs:
       - python/save-cache
       - run: 
           name: "Run YTPDW"
-          command: python3 ./main.py
+          command: echo $WebhookUrl && python3 ./main.py
           environment:
             ApiKey: $ApiKey
             PlaylistID: $PlaylistID
