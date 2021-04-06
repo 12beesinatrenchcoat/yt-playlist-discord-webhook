@@ -13,14 +13,13 @@ Look over the [YouTube Data API Overview](https://developers.google.com/youtube/
 2. After creating your project, make sure the YouTube Data API is one of the services that your application is registered to use: 
     1. Go to the [API Console](https://console.developers.google.com/) and select the project that you just registered.
     2. Visit the [Enabled APIs page](https://console.developers.google.com/apis/enabled).  In the list of APIs, make sure the status is **ON** for the **YouTube Data API v3**.
-3. Edit the [config.ini](/config.ini): 
+3. Edit the [.env](/.env) (or set up your environment variables): 
 
-```ini
-[MAIN]
-ApiKey = youtube api key...
-PlaylistId = the youtube playlist ID, not the full url, just the part after `playlist?list=`
-WebhookUrl = the webhook url.
-EmbedText = the message you want to be sent with the embed.  If nothing is specified, defaults to: `New video in playlist!` you can also say `videoURL` to send the video's URL.
+```sh
+ApiKey = # youtube api key...
+PlaylistId = # the youtube playlist ID (the part after `playlist?list=`)
+WebhookUrl = # the webhook url.
+EmbedText = # the message you want to be sent with the embed. defaults to: `New video in playlist!` you can also say `videoURL` to send the video's URL.
 ```
 
 ## Running
