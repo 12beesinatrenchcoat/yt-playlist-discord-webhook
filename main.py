@@ -1,10 +1,16 @@
 # dependency hell
+import argparse
 from datetime import datetime
 from discord_webhook import DiscordWebhook, DiscordEmbed
 from googleapiclient.discovery import build
 import iso8601
 import socket
 import time
+
+# a single argument.
+parser = argparse.ArgumentParser(description="Fetch videos from a YouTube playlist, and then post them to a Discord webhook.")
+parser.add_argument('--offset', type=int, default=0, help="offset timestamp by x seconds. (e.g. a value of 60 will send videos added up to 60 seconds ago / the script was last run.)")
+args = parser.parse_args()
 
 from decouple import config
 api_key = config('ApiKey')
@@ -31,10 +37,13 @@ def get_playlist_items():
             f.write(str(now))
             f.truncate()
 
-    except FileNotFoundError:
+    except FileNotFoundError:  # if there is no file, default to using current time.
         with open('last_video_timestamp', 'w') as f:
             f.write(str(now))
             last_video_timestamp = now
+
+    args = parser.parse_args()
+    last_video_timestamp -= args.offset  # adjusting last_video_timestamp by the offset.
 
     request = youtube.playlistItems().list(
         part='snippet',
@@ -72,11 +81,11 @@ def get_playlist_items():
     for video in videos:          # Let the user decide what they want the embed message to say, if the config has "videoURL" then send the video URL.
         if embed_text is None:    # The video URL will not embed as there is already an embed on the message.
             execute_webhook("New video in playlist!", video_info_to_embed(video)) # If configuration field is blank then run the default.
-        if embed_text == "VideoURL": # sends video URL.
-            snippet = video['snippet'] # This is needed as otherwise it uses the old snippet.
-            execute_webhook('https://youtu.be/' + snippet['resourceId']['videoId'], video_info_to_embed(video)) # Yes this bit is just taken from below.
+        if embed_text == "VideoURL":  # sends video URL.
+            snippet = video['snippet']  # This is needed as otherwise it uses the old snippet.
+            execute_webhook('https://youtu.be/' + snippet['resourceId']['videoId'], video_info_to_embed(video)) 
         else:
-            execute_webhook(embed_text, video_info_to_embed(video)) # If nothing else then use what the user put in.
+            execute_webhook(embed_text, video_info_to_embed(video))  # If nothing else then use what the user put in.
 
     print("that's all folks!")
 
