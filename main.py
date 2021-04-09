@@ -1,4 +1,4 @@
-# dependency hell
+# Dependency hell
 import argparse
 from decouple import config
 from datetime import datetime
@@ -9,8 +9,19 @@ import socket
 import time
 
 # Setting up command line argument(s)...
-parser = argparse.ArgumentParser(description="Fetch videos from a YouTube playlist, and then post them to a Discord webhook.")
-parser.add_argument('--offset', type=int, default=0, help="offset timestamp by x seconds. (e.g. a value of 60 will send videos added up to 60 seconds ago / the script was last run.)")
+parser = argparse.ArgumentParser(
+    description="Fetches videos from a YouTube playlist, \
+    and then posts them to a Discord webhook."
+)
+parser.add_argument(
+    '--offset',
+    type=int,
+    default=0,
+    help="Offset timestamp by an amount of seconds. \
+    (e.g. A value of 60 will send videos added up to 60 seconds ago \
+    / the script was last run.)"
+)
+
 args = parser.parse_args()
 
 # Environment variables!
@@ -46,12 +57,12 @@ def get_comparison_timestamp():
 
 
 def get_playlist_items():
-    # Requesting from the youtube api.
+    # Requesting playlistItems from the YouTube API.
 
     request = youtube.playlistItems().list(
         part='snippet',
         playlistId=playlist_id,
-        maxResults=50  # TODO: pagination instead of this nonsense
+        maxResults=50  # TODO: Pagination instead of this nonsense
     )
 
     for _attempt in range(10):
@@ -65,7 +76,8 @@ def get_playlist_items():
             print('request successful!')
             break
     else:
-        print('request timed out. a lot. something has gone catastrophically wrong.')
+        print('Request timed out... a lot. \
+        Something has gone catastrophically wrong.')
         exit()
 
     return response
@@ -99,14 +111,18 @@ def execute_webhook(content, embed):
 
     response = webhook.execute()
 
-    if response.status_code == 429:  # for some reason there's an additional rate limit. whoops.
+    if response.status_code == 429:  # I guess there's another rate limit.
         retry_after = response.json()['retry_after']
         print(retry_after)
         time.sleep(retry_after/1000)
         response = webhook.execute()
 
     headers = response.headers
-    print('limit ' + headers['x-ratelimit-remaining'] + ' cooldown ' + headers['x-ratelimit-reset-after'])
+    print('limit ' +
+          headers['x-ratelimit-remaining'] +
+          ' cooldown ' +
+          headers['x-ratelimit-reset-after'])
+
     if headers['x-ratelimit-remaining'] == '0':
         print('sleeping...')
         time.sleep(float(headers['x-ratelimit-reset-after']) + 0.1)
@@ -118,19 +134,22 @@ def video_info_to_embed(video):
 
     snippet = video['snippet']
 
-    video_owner_channel_url = 'https://youtube.com/channels/' + snippet['videoOwnerChannelId']
+    video_owner_channel_url = ('https://youtube.com/channels/' +
+                               snippet['videoOwnerChannelId'])
     video_url = 'https://youtu.be/' + snippet['resourceId']['videoId']
 
     try:
         thumbnail_url = snippet['thumbnails']['maxres']['url']
-    except KeyError:  # alternative thumbnail; not all videos have "maxres" thumbnails
+    except KeyError:
+        # Alternative thumbnail; not all videos have "maxres" thumbnails
         thumbnail_url = snippet['thumbnails']['high']['url']
 
     embed = DiscordEmbed()
 
     embed.set_title(snippet['title'])
     embed.set_url(video_url)
-    embed.set_author(name=snippet['videoOwnerChannelTitle'], url=video_owner_channel_url)
+    embed.set_author(name=snippet['videoOwnerChannelTitle'],
+                     url=video_owner_channel_url)
     embed.set_thumbnail(url=thumbnail_url)
     embed.set_timestamp(snippet['publishedAt'])
     embed.set_color(16711680)
@@ -149,10 +168,13 @@ if __name__ == '__main__':
     print(embed_text)
 
     for video in videos:
-        if embed_text is None:  # The video URL will not embed as there is already an embed on the message.
-            execute_webhook("New video in playlist!", video_info_to_embed(video))
+        if embed_text is None:  # Send the default message.
+            execute_webhook("New video in playlist!",
+                            video_info_to_embed(video))
         elif embed_text == "VideoURL":  # Sends video URL.
-            execute_webhook('https://youtu.be/' + video['snippet']['resourceId']['videoId'], video_info_to_embed(video))
+            execute_webhook('https://youtu.be/' +
+                            video['snippet']['resourceId']['videoId'],
+                            video_info_to_embed(video))
         else:  # If other value, use what the user has specified.
             execute_webhook(embed_text, video_info_to_embed(video))
 
