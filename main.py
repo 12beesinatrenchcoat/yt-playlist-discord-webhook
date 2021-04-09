@@ -56,7 +56,7 @@ def get_comparison_timestamp():
     return comparison_timestamp
 
 
-def get_playlist_items():
+def get_playlist_items(playlist_id: str):
     # Requesting playlistItems from the YouTube API.
 
     request = youtube.playlistItems().list(
@@ -83,6 +83,12 @@ def get_playlist_items():
     return response
 
 
+def iso_string_to_epoch(iso_date_string: str):
+    # So Discord doesn't throw a fit.
+    epoch = iso8601.parse_date(iso_date_string).timestamp()
+    return epoch
+
+
 def filter_playlist_items_by_timestamp(response, comparison_timestamp):
     # Filtering the response to which videos have been added.
     # Input should be response from playlistItems.list.
@@ -91,11 +97,10 @@ def filter_playlist_items_by_timestamp(response, comparison_timestamp):
 
     for video in response['items']:
 
-        snippet = video['snippet']
-        timestamp = iso8601.parse_date(snippet['publishedAt']).timestamp()
-        video['snippet']['publishedAt'] = timestamp
+        epoch = iso_string_to_epoch(video['snippet']['publishedAt'])
+        video['snippet']['publishedAt'] = epoch
 
-        if timestamp > comparison_timestamp:
+        if epoch > comparison_timestamp:
             videos.insert(0, video)
         else:
             break
@@ -160,7 +165,7 @@ def video_info_to_embed(video):
 if __name__ == '__main__':
     # Now putting it all together...
 
-    response = get_playlist_items()
+    response = get_playlist_items(playlist_id)
     comparison_timestamp = get_comparison_timestamp()
 
     videos = filter_playlist_items_by_timestamp(response, comparison_timestamp)
