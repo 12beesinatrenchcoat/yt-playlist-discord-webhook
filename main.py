@@ -28,7 +28,7 @@ args = parser.parse_args()
 api_key = config('ApiKey')  # API Key for YouTube Data API.
 playlist_id = config('PlaylistID')  # Playlist ID for a YouTube playlist.
 webhook_url = config('WebhookUrl')
-embed_text = config('EmbedText')  # Optional message sent along with the embed.
+embed_text = config('EmbedText', default=None)  # Optional message content.
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 
