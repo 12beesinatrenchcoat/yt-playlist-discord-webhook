@@ -4,7 +4,6 @@ name: Some tests
 
 # Controls when the action will run. 
 on:
-  schedule:
   push:
     branches: [ master ]
   pull_request:
