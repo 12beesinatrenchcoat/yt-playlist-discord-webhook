@@ -17,6 +17,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      ApiKey: ${{ secrets.ApiKey }}
+      PlaylistID: PLB2AcRG34VQWlArTnlLR98RZeOnep8-Zb
+      WebhookUrl: ${{ secrets.WebhookUrl }}
+      EmbedText: Test script running...
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -48,12 +54,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --statistics
       - name: Run tests
         run: |
-          python test.py
+          python test.py 
       - name: Run the script, send all videos
         run: |
           python main.py --offset 99999999
-        env:
-          ApiKey: ${{ secrets.ApiKey }}
-          PlaylistID: PLB2AcRG34VQWlArTnlLR98RZeOnep8-Zb
-          WebhookUrl: ${{ secrets.WebhookUrl }}
-          EmbedText: Test script running...
