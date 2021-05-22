@@ -161,6 +161,9 @@ def video_info_to_embed(video):
     video_owner = get_user_info(snippet['videoOwnerChannelId'])
     video_owner_channel_url = ('https://youtube.com/channels/' +
                                snippet['videoOwnerChannelId'])
+    # The person who added the video.
+    contributor = get_user_info(snippet['channelId'])
+
     embed = DiscordEmbed()
 
     embed.set_title(snippet['title'])
@@ -169,6 +172,8 @@ def video_info_to_embed(video):
                      url=video_owner_channel_url,
                      icon_url=video_owner['thumbnails']['high']['url'])
     embed.set_thumbnail(url=thumbnail_url)
+    embed.set_footer(text='Added by ' + contributor['title'],
+                     icon_url=contributor['thumbnails']['high']['url'])
     embed.set_timestamp(snippet['publishedAt'])
     embed.set_color(16711680)
 
