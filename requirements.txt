@@ -2,7 +2,7 @@ cachetools==4.2.2
 certifi==2021.5.30
 chardet==4.0.0
 discord-webhook==0.14.0
-google-api-core==1.31.0
+google-api-core==1.31.1
 google-api-python-client==2.15.0
 google-auth==1.33.1
 google-auth-httplib2==0.1.0
