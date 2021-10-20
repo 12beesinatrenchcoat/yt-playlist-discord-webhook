@@ -1,5 +1,5 @@
 cachetools==4.2.4
-certifi==2021.5.30
+certifi==2021.10.8
 chardet==4.0.0
 discord-webhook==0.14.0
 google-api-core==1.31.3
