@@ -17,7 +17,7 @@ Look over the [YouTube Data API Overview](https://developers.google.com/youtube/
 
 ```sh
 ApiKey = # youtube api key...
-PlaylistId = # the youtube playlist ID (the part after `playlist?list=`)
+PlaylistID = # the youtube playlist ID (the part after `playlist?list=`)
 WebhookUrl = # the webhook url.
 EmbedText = # the message you want to be sent with the embed. defaults to: `New video in playlist!` you can also say `videoURL` to send the video's URL.
 ```
