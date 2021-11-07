@@ -9,7 +9,7 @@ google-auth-httplib2==0.1.0
 googleapis-common-protos==1.53.0
 httplib2==0.20.2
 idna
-iso8601==0.1.16
+iso8601==1.0.0
 packaging==21.2
 protobuf==3.19.1
 pyasn1==0.4.8
