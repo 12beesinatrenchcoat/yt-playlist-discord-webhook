@@ -1,6 +1,6 @@
 # yt-playlist-discord-webhook
 
-![GitHub last commit](https://img.shields.io/github/last-commit/AndyThePie/yt-playlist-discord-webhook?style=flat-square) ![Requires.io](https://img.shields.io/requires/github/AndyThePie/yt-playlist-discord-webhook?style=flat-square) ![quality](https://img.shields.io/badge/quality-none-red?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/AndyThePie/yt-playlist-discord-webhook?style=flat-square) ![quality](https://img.shields.io/badge/quality-none-red?style=flat-square)
 
 a python script that when run, takes all the newest videos in a youtube playlist, and POSTs it to a discord webhook. or at least, it's supposed to. 
 
