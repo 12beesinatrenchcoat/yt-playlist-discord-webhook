@@ -11,7 +11,7 @@ httplib2==0.20.4
 idna
 iso8601==1.0.2
 packaging==21.3
-protobuf==3.19.1
+protobuf==3.19.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==2.4.7
