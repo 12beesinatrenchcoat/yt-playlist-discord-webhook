@@ -190,7 +190,8 @@ if __name__ == '__main__':
             message = "New video in playlist!"
 
         elif embed_text == "VideoURL":  # Sends video URL.
-            message = 'https://youtu.be/' + video['snippet']['resourceId']['videoId']
+            message = 'https://youtu.be/' + \
+                      video['snippet']['resourceId']['videoId']
         else:  # If other value, use what the user has specified.
             message = embed_text
 
