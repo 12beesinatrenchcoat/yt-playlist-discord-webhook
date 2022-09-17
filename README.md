@@ -1,10 +1,14 @@
 # yt-playlist-discord-webhook
 
-![GitHub last commit](https://img.shields.io/github/last-commit/AndyThePie/yt-playlist-discord-webhook?style=flat-square) ![quality](https://img.shields.io/badge/quality-none-red?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/AndyThePie/yt-playlist-discord-webhook?style=flat-square) 
+![quality](https://img.shields.io/badge/quality-none-red?style=flat-square) 
+![Maintenance](https://img.shields.io/maintenance/no/2022?style=flat-square)
 
-a python script that when run, takes all the newest videos in a youtube playlist, and POSTs it to a discord webhook. or at least, it's supposed to. 
+A Python script that when run, takes all the newest videos in a YouTube playlist, and POSTs it to a discord webhook. 
+Or at least, it's supposed to. 
 
-> a note: i wrote this to introduce myself to python. the code is a mess, and whether or not it'll work is... iffy. use at your own risk.
+> A note: I wrote this to introduce myself to Python. The code is a mess, and whether it'll work is... iffy. Use at your own risk.  
+> Additionally, I have no real intention of maintaining this. things may be broken down the line. Apologies.
 
 ## Usage
 
@@ -25,10 +29,11 @@ EmbedText = # the message you want to be sent with the embed. defaults to: `New 
 ## Running
 
 1. Install all dependencies with `pip install -r requirements.txt`
-2. Using whatever your python prefix is, run `main.py`
-Windows: `py main.py`
-3. If you want to run this at certain times, it is recommended you configure a cron job, [this](https://crontab.guru/) will make your life easier.
+2. Run `main.py`.
+   - Optionally, use `--offset [seconds]` to filter videos added [seconds] ago.
+
+Consider running a [cron job](https://crontab.guru/), using [GitHub Actions](/.github/workflows/YTPDW.yml), or just some looping script to run this at a regular interval.
 
 ## License
 
-[the unlicense](https://unlicense.org/). do whatever you want with it.
+[The Unlicense](https://unlicense.org/). Do whatever you want with it.
