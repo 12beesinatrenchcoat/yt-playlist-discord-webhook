@@ -131,7 +131,7 @@ def execute_webhook(content, embed):
 
     if response.status_code == 429:  # I guess there's another rate limit.
         retry_after = response.json()['retry_after']
-        print(retry_after)
+        print("long rate limit! retry in " + str(retry_after) + "ms")
         time.sleep(retry_after / 1000)
         response = webhook.execute()
 
@@ -161,16 +161,16 @@ def video_info_to_embed(video):
     video_owner = get_user_info(snippet['videoOwnerChannelId'])
     video_owner_channel_url = ('https://youtube.com/channels/' +
                                snippet['videoOwnerChannelId'])
-    embed = DiscordEmbed()
-
-    embed.set_title(snippet['title'])
-    embed.set_url(video_url)
+    embed = DiscordEmbed(
+        title=snippet['title'],
+        url=video_url,
+        color="ff0000"
+    )
     embed.set_author(name=snippet['videoOwnerChannelTitle'],
                      url=video_owner_channel_url,
                      icon_url=video_owner['thumbnails']['high']['url'])
     embed.set_thumbnail(url=thumbnail_url)
     embed.set_timestamp(snippet['publishedAt'])
-    embed.set_color(16711680)
 
     return embed
 
@@ -187,13 +187,13 @@ if __name__ == '__main__':
 
     for video in videos:
         if embed_text is None:  # Send the default message.
-            execute_webhook("New video in playlist!",
-                            video_info_to_embed(video))
+            message = "New video in playlist!"
+
         elif embed_text == "VideoURL":  # Sends video URL.
-            execute_webhook('https://youtu.be/' +
-                            video['snippet']['resourceId']['videoId'],
-                            video_info_to_embed(video))
+            message = 'https://youtu.be/' + video['snippet']['resourceId']['videoId']
         else:  # If other value, use what the user has specified.
-            execute_webhook(embed_text, video_info_to_embed(video))
+            message = embed_text
+
+        execute_webhook(message, video_info_to_embed(video))
 
     print("that's all folks!")
