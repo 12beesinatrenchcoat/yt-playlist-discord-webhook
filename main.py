@@ -189,7 +189,7 @@ if __name__ == '__main__':
         if video['snippet']['thumbnails'] == {}:
             print('Video "' + video['snippet']['resourceId']['videoId'] +
                   '" has no thumbnails, likely deleted. Skipping…')
-            break
+            continue
 
         if embed_text is None:  # Send the default message.
             message = "New video in playlist!"
