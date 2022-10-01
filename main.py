@@ -51,7 +51,7 @@ def execute_request(request, max_attempts=10):
 
 
 def get_comparison_timestamp():
-    # The last time the script was ran. otherwise, return the current time.
+    # The last time the script was run. otherwise, return the current time.
     # This is used to determine if a video is "new".
 
     now = datetime.now().timestamp()
@@ -186,6 +186,11 @@ if __name__ == '__main__':
     print(embed_text)
 
     for video in videos:
+        if video['snippet']['thumbnails'] == {}:
+            print('Video "' + video['snippet']['resourceId']['videoId'] +
+                  '" has no thumbnails, likely deleted. Skipping…')
+            break
+
         if embed_text is None:  # Send the default message.
             message = "New video in playlist!"
 
